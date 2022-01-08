@@ -6,11 +6,16 @@ import { Box, Button } from "../styles";
 
 function RecipeList() {
   const [recipes, setRecipes] = useState([]);
+  const [user, setuser] = useState([]);
 
   useEffect(() => {
     fetch("/recipes")
       .then((r) => r.json())
       .then(setRecipes);
+      fetch("/me")
+      .then((r) => r.json())
+      .then(setuser);
+
   }, []);
 
   return (
@@ -23,7 +28,7 @@ function RecipeList() {
               <p>
                 <em>Time to Complete: {recipe.minutesToComplete} minutes</em>
                 &nbsp;·&nbsp;
-                <cite>By {recipe.user.username}</cite>
+                <cite>By {user?.username}</cite>
               </p>
               <ReactMarkdown>{recipe.instructions}</ReactMarkdown>
             </Box>
